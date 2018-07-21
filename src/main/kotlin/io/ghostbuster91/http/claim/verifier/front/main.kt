@@ -4,6 +4,7 @@ import kotlinx.html.*
 import kotlinx.html.dom.append
 import kotlinx.html.js.onClickFunction
 import org.w3c.dom.HTMLDivElement
+import org.w3c.dom.HTMLInputElement
 import kotlin.browser.document
 import kotlin.browser.window
 import kotlin.js.Json
@@ -12,14 +13,16 @@ fun main(args: Array<String>) {
     document.addEventListener("DOMContentLoaded", {
         document.body!!.append.div {
             div {
-                input(name = "signatureInput") {
+                input {
+                    id = "signatureInput"
                     placeholder = "Paste claim signature to verify"
                     size = "50"
                 }
                 button {
                     +"verify"
                     onClickFunction = {
-                        window.fetch("http://api.userfeeds.io/api/verify-claim?signatureValue=0x0047eee0bf0fad4fc13fcb5d1ba78b2559ec598d747e1b8f0b66518f3ee2752f1892e5bb621355702db4074d80690e0ccef385ce44a8790d901173da35619c011b")
+                        val signatureValue = (document.getElementById("signatureInput") as HTMLInputElement).value
+                        window.fetch("http://api.userfeeds.io/api/verify-claim?signatureValue=$signatureValue")
                                 .then { res -> res.text() }
                                 .then { displayResults(JSON.parse(it)) }
                     }
