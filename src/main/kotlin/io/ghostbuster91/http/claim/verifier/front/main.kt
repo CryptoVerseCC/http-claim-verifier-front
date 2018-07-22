@@ -11,7 +11,7 @@ import kotlin.browser.window
 import kotlin.js.Json
 
 fun main(args: Array<String>) {
-    document.addEventListener("DOMContentLoaded", {
+    window.onload = {
         val signatureValueParam = URL(window.location.href).searchParams.get("signatureValue")
         document.body!!.append.div {
             div {
@@ -38,7 +38,7 @@ fun main(args: Array<String>) {
             callApi(signatureValueParam)
                     .then { displayResults(JSON.parse(it)) }
         }
-    })
+    }
 }
 
 private fun callApi(signatureValueParam: String?) =
