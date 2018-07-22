@@ -42,7 +42,7 @@ fun main(args: Array<String>) {
 }
 
 private fun callApi(signatureValueParam: String?) =
-        window.fetch("http://api.userfeeds.io/api/verify-claim?signatureValue=$signatureValueParam")
+        window.fetch("https://api.userfeeds.io/api/verify-claim?signatureValue=$signatureValueParam")
                 .then { res -> res.text() }
 
 private fun displayResults(data: Json) {
