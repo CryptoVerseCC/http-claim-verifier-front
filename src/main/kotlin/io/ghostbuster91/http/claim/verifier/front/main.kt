@@ -5,25 +5,27 @@ import kotlinx.html.dom.append
 import kotlinx.html.js.onClickFunction
 import org.w3c.dom.HTMLDivElement
 import org.w3c.dom.HTMLInputElement
+import org.w3c.dom.url.URL
 import kotlin.browser.document
 import kotlin.browser.window
 import kotlin.js.Json
 
 fun main(args: Array<String>) {
     document.addEventListener("DOMContentLoaded", {
+        val signatureValueParam = URL(window.location.href).searchParams.get("signatureValue")
         document.body!!.append.div {
             div {
                 input {
                     id = "signatureInput"
-                    placeholder = "Paste claim signature to verify"
-                    size = "50"
+                    placeholder = "Paste claim signature"
+                    size = "80"
+                    value = signatureValueParam.orEmpty()
                 }
                 button {
-                    +"verify"
+                    +"show"
                     onClickFunction = {
                         val signatureValue = (document.getElementById("signatureInput") as HTMLInputElement).value
-                        window.fetch("http://api.userfeeds.io/api/verify-claim?signatureValue=$signatureValue")
-                                .then { res -> res.text() }
+                        callApi(signatureValue)
                                 .then { displayResults(JSON.parse(it)) }
                     }
                 }
@@ -32,10 +34,18 @@ fun main(args: Array<String>) {
                 id = "result"
             }
         }
+        if (signatureValueParam != null) {
+            callApi(signatureValueParam)
+                    .then { displayResults(JSON.parse(it)) }
+        }
     })
 }
 
-fun displayResults(data: Json) {
+private fun callApi(signatureValueParam: String?) =
+        window.fetch("http://api.userfeeds.io/api/verify-claim?signatureValue=$signatureValueParam")
+                .then { res -> res.text() }
+
+private fun displayResults(data: Json) {
     val resultView = document.getElementById("result") as HTMLDivElement
     if (resultView.hasChildNodes()) {
         resultView.removeChild(resultView.firstChild!!)
@@ -43,7 +53,20 @@ fun displayResults(data: Json) {
 
     resultView.append.div {
         p {
-            +(data["signatureValue"] as String)
+            +("Address used to sign this message: " + (data["creator"] as String))
+        }
+        p {
+            +("Message signature hash: " + (data["signatureValue"] as String))
+        }
+        p {
+            +("Message that was signed: " + (data["data"] as String))
+        }
+        div {
+            p {
+                +"Copy above values to "
+                a(href = " http://etherscan.io/verifySig") { +"etherscan" }
+                +" in order to verify"
+            }
         }
     }
 }
