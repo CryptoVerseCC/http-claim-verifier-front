@@ -1,5 +1,4 @@
 package io.ghostbuster91.http.claim.verifier.front
-
 import kotlinx.html.*
 import kotlinx.html.dom.append
 import kotlinx.html.js.onClickFunction
@@ -61,6 +60,7 @@ private fun displayResults(data: Json) {
         p {
             +("Message that was signed: " + (data["data"] as String))
         }
+
         div {
             p {
                 +"Copy above values to "
@@ -68,5 +68,5 @@ private fun displayResults(data: Json) {
                 +" in order to verify"
             }
         }
-    }
+    }.append(JSONFormatter().render())
 }

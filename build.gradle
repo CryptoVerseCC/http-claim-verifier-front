@@ -34,9 +34,8 @@ kotlinFrontend {
     downloadNodeJsVersion = "latest"
 
     npm {
-//        dependency("kotlin", "1.1.0")
         dependency "style-loader"
-
+        dependency "json-formatter-js"
         devDependency("karma")
     }
 
