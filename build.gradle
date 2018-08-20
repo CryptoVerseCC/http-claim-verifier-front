@@ -35,7 +35,7 @@ kotlinFrontend {
 
     npm {
         dependency "style-loader"
-        dependency "json-formatter-js"
+        devDependency "json-formatter-js"
         devDependency("karma")
     }
 
@@ -63,6 +63,7 @@ compileKotlin2Js {
     kotlinOptions.metaInfo = true
     kotlinOptions.outputFile = "$project.buildDir.path/js/${project.name}.js"
     kotlinOptions.sourceMap = true
+    kotlinOptions.sourceMapEmbedSources = "always"
     kotlinOptions.moduleKind = 'commonjs'
     kotlinOptions.main = "call"
 }
@@ -71,6 +72,7 @@ compileTestKotlin2Js {
     kotlinOptions.metaInfo = true
     kotlinOptions.outputFile = "$project.buildDir.path/js-tests/${project.name}-tests.js"
     kotlinOptions.sourceMap = true
+    kotlinOptions.sourceMapEmbedSources = "always"
     kotlinOptions.moduleKind = 'commonjs'
 //    kotlinOptions.moduleName = project.name + "-test"
     kotlinOptions.main = "call"

@@ -1,4 +1,5 @@
 @file:Suppress("INTERFACE_WITH_SUPERCLASS", "OVERRIDING_FINAL_MEMBER", "RETURN_TYPE_MISMATCH_ON_OVERRIDE", "CONFLICTING_OVERLOADS", "EXTERNAL_DELEGATION", "NESTED_CLASS_IN_EXTERNAL_INTERFACE")
+@file:JsModule("json-formatter-js")
 package io.ghostbuster91.http.claim.verifier.front
 
 import kotlin.js.*
@@ -16,8 +17,7 @@ import org.w3c.performance.*
 import org.w3c.workers.*
 import org.w3c.xhr.*
 
-@JsNonModule
-external class JSONFormatter {
+external class JSONFormatter(json: Any) {
     var json: Any
     var open: Any
     var config: Any
@@ -44,7 +44,7 @@ external class JSONFormatter {
     fun appendChildren(animated: Boolean? = definedExternally /* null */)
     fun removeChildren(animated: Boolean? = definedExternally /* null */)
 }
-@JsNonModule
+
 external interface JSONFormatterConfiguration {
     var hoverPreviewEnabled: Boolean? get() = definedExternally; set(value) = definedExternally
     var hoverPreviewArrayCount: Number? get() = definedExternally; set(value) = definedExternally

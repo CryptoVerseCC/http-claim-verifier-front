@@ -68,5 +68,5 @@ private fun displayResults(data: Json) {
                 +" in order to verify"
             }
         }
-    }.append(JSONFormatter().render())
+    }.append(JSONFormatter(data["data"]!!).render())
 }
